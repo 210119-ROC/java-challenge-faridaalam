@@ -1,5 +1,7 @@
 package com.revature.eval.java.core;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +24,9 @@ public class EvaluationService {
 
 		public static long toMilesPerHour(double kilometersPerHour) {
 			// TODO Write an implementation for this method declaration
-			return 0;
+			if (kilometersPerHour < 0)
+				return -1;
+			return Math.round(kilometersPerHour * 0.62);
 		}
 
 		/**
@@ -42,7 +46,9 @@ public class EvaluationService {
 		 */
 		public static String printConversion(double kilometersPerHour) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			if (kilometersPerHour < 0)
+				return "Invalid Value";
+			return kilometersPerHour + " km/h = "+Math.round(kilometersPerHour * 0.62) + " mi/h";
 		}
 	}
 
@@ -68,7 +74,9 @@ public class EvaluationService {
 	 */
 	public String printMegaBytesAndKiloBytes(int XX) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		if (XX <0) return "Invalid Value";
+		else return XX + " KB = " + XX/1024 +" and " + XX%1024 + " KB";
+		
 	}
 
 	/**
@@ -92,7 +100,11 @@ public class EvaluationService {
 	 */
 	public boolean shouldWakeUp(boolean isBarking, int hourOfDay) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		if ((hourOfDay < 0) || (hourOfDay > 23)) return false;
+		if ((isBarking) && ((hourOfDay <8)||(hourOfDay > 22)))
+				return true;
+		else 
+				return false;
 	}
 
 	/**
@@ -108,8 +120,19 @@ public class EvaluationService {
 	 */
 	public boolean areEqualByThreeDecimalPlaces(double firstNum, double secondNum) {
 		// TODO Write an implementation for this method declaration
-		return false;
-	}
+			BigDecimal bd1 = new BigDecimal(Double.toString(firstNum));
+		    bd1 = bd1.setScale(3, RoundingMode.DOWN);
+		    BigDecimal bd2 = new BigDecimal(Double.toString(secondNum));
+		    bd2 = bd2.setScale(3, RoundingMode.DOWN);
+		  		   
+		    
+		    if (bd1.doubleValue() == bd2.doubleValue()) 
+		    	return true;
+		    else 
+		    	return false;
+		}
+		
+	
 
 	/**
 	 * 5. Teen Number Checker
@@ -125,6 +148,9 @@ public class EvaluationService {
 
 		public static boolean hasTeen(int x, int y, int z) {
 			// TODO Write an implementation for this method declaration
+			if (isTeen(x) || isTeen(y) || isTeen(z)) 
+				return true;
+			else
 			return false;
 		}
 
@@ -133,7 +159,10 @@ public class EvaluationService {
 
 		public static boolean isTeen(int number) {
 			// TODO Write an implementation for this method declaration
-			return false;
+			if ((number >= 13)&& (number <=19))
+				return true;
+			else
+				return false;
 		}
 	}
 
