@@ -23,7 +23,6 @@ public class EvaluationService {
 	static class SpeedConverter {
 
 		public static long toMilesPerHour(double kilometersPerHour) {
-			// TODO Write an implementation for this method declaration
 			if (kilometersPerHour < 0)
 				return -1;
 			return Math.round(kilometersPerHour * 0.62);
@@ -45,7 +44,6 @@ public class EvaluationService {
 		 * Value"
 		 */
 		public static String printConversion(double kilometersPerHour) {
-			// TODO Write an implementation for this method declaration
 			if (kilometersPerHour < 0)
 				return "Invalid Value";
 			return kilometersPerHour + " km/h = "+Math.round(kilometersPerHour * 0.62) + " mi/h";
@@ -73,7 +71,6 @@ public class EvaluationService {
 	 * Value".
 	 */
 	public String printMegaBytesAndKiloBytes(int XX) {
-		// TODO Write an implementation for this method declaration
 		if (XX <0) return "Invalid Value";
 		else return XX + " KB = " + XX/1024 +" and " + XX%1024 + " KB";
 		
@@ -99,7 +96,6 @@ public class EvaluationService {
 	 * If the hourOfDay parameter is less than 0 or greater than 23, return false.
 	 */
 	public boolean shouldWakeUp(boolean isBarking, int hourOfDay) {
-		// TODO Write an implementation for this method declaration
 		if ((hourOfDay < 0) || (hourOfDay > 23)) return false;
 		if ((isBarking) && ((hourOfDay <8)||(hourOfDay > 22)))
 				return true;
@@ -119,7 +115,6 @@ public class EvaluationService {
 	 * Otherwise, return false;
 	 */
 	public boolean areEqualByThreeDecimalPlaces(double firstNum, double secondNum) {
-		// TODO Write an implementation for this method declaration
 			BigDecimal bd1 = new BigDecimal(Double.toString(firstNum));
 		    bd1 = bd1.setScale(3, RoundingMode.DOWN);
 		    BigDecimal bd2 = new BigDecimal(Double.toString(secondNum));
@@ -147,7 +142,6 @@ public class EvaluationService {
 	static class TeenNumberChecker {
 
 		public static boolean hasTeen(int x, int y, int z) {
-			// TODO Write an implementation for this method declaration
 			if (isTeen(x) || isTeen(y) || isTeen(z)) 
 				return true;
 			else
@@ -158,7 +152,6 @@ public class EvaluationService {
 		// Then pass the parameter to hasTeen method
 
 		public static boolean isTeen(int number) {
-			// TODO Write an implementation for this method declaration
 			if ((number >= 13)&& (number <=19))
 				return true;
 			else
@@ -182,8 +175,11 @@ public class EvaluationService {
 	 * ZZ represents the calculated days.
 	 */
 	public String printYearsAndDays(long minutes) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		if (minutes <0 )
+			return "Invalid Value";
+			long YY = minutes / 525600L;
+			long ZZ = (minutes %  525600L) / 1440L;
+		return minutes + " min = " + YY + " y and "+ ZZ + " d";
 	}
 
 	/**
@@ -196,8 +192,28 @@ public class EvaluationService {
 	 * statement or switch statement whatever is easier for you.
 	 */
 	public String printNumberInWord(int number) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	
+		switch (number) {
+		case 1:
+			return "ONE";
+		case 2:
+			return "TWO";
+		case 3:
+			return "THREE";
+		case 4:
+			return "FOUR";
+		case 5:
+			return "FIVE";
+		case 6:
+			return "SIX";
+		case 7:
+			return "SEVEN";
+		case 8:
+			return "EIGHT";
+		case 9:
+			return "NINE";
+		default: return "OTHER";
+		}
 	}
 
 	/**
@@ -220,8 +236,19 @@ public class EvaluationService {
 	 * and there is no resulting remainder.
 	 */
 	public int getGreatestCommonDivisor(int first, int second) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		if ((first <10)||(second<10)) return -1;
+	
+		int num;
+		if (first > second )
+			 num = second;
+		else
+			 num = first;
+
+		for (int i = num; i >1; i--) 		
+			if (((first %i) ==0) && ((second % i) == 0)) 
+				return i;
+			
+		return 1;
 	}
 
 	/**
@@ -238,8 +265,18 @@ public class EvaluationService {
 	 * invalid value.
 	 */
 	public int sumFirstAndLastDigit(int num) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		
+		if (num < 0) return -1;
+		int first = num % 10;
+		int second = 0;
+		do {
+			num = num /10;
+			second = num %10;
+			
+		}while (num > 10);
+		
+		return first + second;
+		
 	}
 
 	/**
@@ -249,8 +286,14 @@ public class EvaluationService {
 	 * reverses a String. Example: reverse("example"); -> "elpmaxe"
 	 */
 	public String reverse(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		
+		String reverse = "";
+		
+		for (int i = string.length()-1; i >= 0; i--) {
+			reverse += string.charAt(i);
+		}
+
+		return reverse;
 	}
 
 	/**
@@ -261,8 +304,16 @@ public class EvaluationService {
 	 * long name like Portable Network Graphics to its acronym (PNG).
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		phrase = phrase.replace('-', ' ');
+		String acro ="";
+		while (!phrase.isEmpty()) {
+			acro += phrase.charAt(0);
+			if (phrase.contains(" "))
+				phrase = phrase.substring(phrase.indexOf(' ')).trim();
+		
+			else phrase = "";
+		}
+		return acro.toUpperCase();
 	}
 
 	/**
