@@ -721,6 +721,6 @@ public class EvaluationService {
 	
 	public int guessingGame(int x, int y) {
 		
-		return (int)Math.random()*(y-x +1)+x;
+		return (int)(Math.random()*(y-x +1)+x);
 	}
 }
