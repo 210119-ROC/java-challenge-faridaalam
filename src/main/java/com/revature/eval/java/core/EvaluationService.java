@@ -2,8 +2,13 @@ package com.revature.eval.java.core;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 public class EvaluationService {
 
@@ -72,7 +77,7 @@ public class EvaluationService {
 	 */
 	public String printMegaBytesAndKiloBytes(int XX) {
 		if (XX <0) return "Invalid Value";
-		else return XX + " KB = " + XX/1024 +" and " + XX%1024 + " KB";
+		else return XX + " KB = " + XX/1024 +" MB and " + XX%1024 + " KB";
 		
 	}
 
@@ -368,17 +373,31 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
+			double side1 = this.getSideOne();
+			double side2 = this.getSideTwo();
+			double side3 = this.getSideThree();
+			
+			if ((side1 == side2) &&(side2==side3))
+				return true;
 			return false;
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
+			double side1 = this.getSideOne();
+			double side2 = this.getSideTwo();
+			double side3 = this.getSideThree();
+
+			if ((side1 == side2) || (side2==side3) || (side1 == side3))
+				return true;
+
 			return false;
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
+			
+			if (!this.isEquilateral()&&(!this.isIsosceles()))
+				return true;
+			
 			return false;
 		}
 
@@ -399,8 +418,49 @@ public class EvaluationService {
 	 * 3 + 2*1 + 2*3 + 2 + 1 = 3 + 2 + 6 + 3 = 5 + 9 = 14
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		int score = 0;
+		string = string.toUpperCase();
+        for (int i = 0; i < string.length(); i++){
+            
+        	char c = string.charAt(i);
+            switch (c) {
+                case 'A':
+                case 'E':
+                case 'I':
+                case 'L':
+                case 'N':
+                case 'O':
+                case 'R':
+                case 'S':
+                case 'T':
+                case 'U':
+                    score +=1; break;
+                case 'D':
+                case 'G':
+                    score +=2; break;
+                case 'B':
+                case 'C':
+                case 'M':
+                case 'P':
+                    score +=3; break;
+                case 'F':
+                case 'H':
+                case 'V':
+                case 'W':
+                case 'Y':
+                    score +=4; break;
+                case 'K':
+                    score +=5; break;
+                case 'J':
+                case 'X':
+                    score +=8; break;
+                case 'Q':
+                case 'Z':
+                    score +=10; break;
+                default: break;
+            }
+        }
+        return score;
 	}
 
 	/**
@@ -436,8 +496,17 @@ public class EvaluationService {
 	 * Note: As this exercise only deals with telephone numbers used in
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
-	public String cleanPhoneNumber(String string) {
-		return null;
+	public String cleanPhoneNumber(String string) throws IllegalArgumentException {
+		string = string.replaceAll("[^0-9]", "");
+		if ((string.length() <= 9)|| (string.length() >= 12))
+				throw new IllegalArgumentException();
+		
+		if ((string.length()== 11) && string.charAt(0)== '1')
+			string = string.substring(1);
+		else if (string.length()== 11)
+			throw new IllegalArgumentException();
+		
+		return string;
 	}
 
 	/**
@@ -449,8 +518,20 @@ public class EvaluationService {
 	 * free: 1
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		
+		string = string.replaceAll("[^0-9A-Za-z]", " ");
+		string = string.replaceAll("\\s+", " ");
+		
+		String[] words = string.split(" ");
+		
+		Map<String, Integer> wordCount = new HashMap<String, Integer>();
+
+		for (String word : words) {
+			wordCount.computeIfPresent(word,(key, val) -> val + 1);
+			wordCount.putIfAbsent(word, 1);
+		}
+
+		return wordCount;
 	}
 
 	/**
@@ -468,7 +549,25 @@ public class EvaluationService {
 	 * a number is an Armstrong number.
 	 */
 	public boolean isArmstrongNumber(int input) {
-		return false;
+		
+		int counter =0;
+		int sum =0;
+		int in = input;
+		List<Integer> digits = new ArrayList<Integer>(); 
+		while(in >0) {
+			digits.add(in % 10);
+			in = in /10;
+			counter++;
+			
+		}
+		for (int digit : digits) {
+			sum += Math.pow(digit, counter);
+		}
+		
+		if (sum == input)
+			return true;
+		else 
+			return false;
 	}
 
 	/**
@@ -480,8 +579,18 @@ public class EvaluationService {
 	 * Note that 1 is not a prime number.
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
-		// TODO Write an implementation for this method declaration
-		return null;
+			
+		List<Long> primeFactors = new ArrayList<Long>();
+		   for(long i = 2; i< l; i++) {
+		         while(l%i == 0) {
+		            primeFactors.add(i);
+		            l = l/i;
+		         }
+		      }
+		      if(l >=2) {
+		         primeFactors.add(l);
+		      }
+		return primeFactors;
 	}
 
 	/**
@@ -495,9 +604,26 @@ public class EvaluationService {
 	 * If your language provides methods in the standard library to deal with prime
 	 * numbers, pretend they don't exist and implement them yourself.
 	 */
-	public int calculateNthPrime(int k) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+	public int calculateNthPrime(int k) throws IllegalArgumentException{
+			
+			if (k<1) 
+				throw new IllegalArgumentException();
+			int counter = 0;
+			int n = 1;
+			byte isPrime;
+			while (k!=counter) {
+				n++;
+				isPrime = 0;
+				for(int j=n ; j>=1 ; j--) {
+					if ((n%j)==0)
+						isPrime++;
+				}
+				if (isPrime == 2)
+					counter++;
+				
+				
+			}
+		return n;
 	}
 
 	/**
@@ -513,8 +639,15 @@ public class EvaluationService {
 	 * insensitive. Input will not contain non-ASCII symbols.
 	 */
 	public boolean isPangram(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		
+		string = string.toLowerCase();
+		
+		for (char i = 'a'; i<= 'z'; i++) {
+			if(string.indexOf(i) == -1)
+				return false;
+		}
+			
+		return true;
 	}
 
 	/**
@@ -529,7 +662,30 @@ public class EvaluationService {
 	 * The sum of these multiples is 78.
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
-		return 0;
+		
+		int sum = 0;
+		Set<Integer> multiples = new HashSet<Integer>();
+		int result = 0;
+		int num;
+		int counter;
+		for (int j=0; j < set.length; j++) {
+			num = set[j]; 	
+			counter = 1;
+			while (result < i) {
+				result = counter *num;
+				counter++;
+				if (result < i) 
+					multiples.add(result);
+				
+			}
+		result =0;
+		}
+		for (int multiple : multiples) {
+			sum += multiple;
+			
+		}
+		
+		return sum;
 	}
 	
 	/**
@@ -543,7 +699,13 @@ public class EvaluationService {
 	 */
 	
 	public int[] threeLuckyNumbers() {
-		return null;
+		Random rand = new Random();
+		int [] num = new int[3];
+		for (int i=0; i <3; i++ ) 
+			num[i] = rand.nextInt(100)+1;
+			
+		
+		return num;
 	}
 	
 	/*
@@ -557,6 +719,7 @@ public class EvaluationService {
 	 */
 	
 	public int guessingGame(int x, int y) {
-		return 0;
+		
+		return (int)Math.random()*(y-x +1)+x;
 	}
 }
